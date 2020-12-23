@@ -1,7 +1,7 @@
 package com.GhereDaniel.CodingEvents.models.dto;
 
-import com.GhereDaniel.CodingEvents.models.Event;
-import com.GhereDaniel.CodingEvents.models.EventTag;
+import com.GhereDaniel.CodingEvents.models.event.Event;
+import com.GhereDaniel.CodingEvents.models.event.EventTag;
 
 import javax.validation.constraints.NotNull;
 

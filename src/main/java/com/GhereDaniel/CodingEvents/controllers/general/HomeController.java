@@ -1,4 +1,4 @@
-package com.GhereDaniel.CodingEvents.controllers;
+package com.GhereDaniel.CodingEvents.controllers.general;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

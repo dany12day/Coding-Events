@@ -1,4 +1,6 @@
-package com.GhereDaniel.CodingEvents.models;
+package com.GhereDaniel.CodingEvents.models.event;
+
+import com.GhereDaniel.CodingEvents.models.AbstractEntity;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.Email;
@@ -6,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-public class EventDetails extends AbstractEntity{
+public class EventDetails extends AbstractEntity {
 
     @Size(max = 500, message = "Description too long!")
     private String description;

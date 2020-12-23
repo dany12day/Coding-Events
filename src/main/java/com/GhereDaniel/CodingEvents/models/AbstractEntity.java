@@ -1,5 +1,7 @@
 package com.GhereDaniel.CodingEvents.models;
 
+import com.GhereDaniel.CodingEvents.models.event.Event;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;

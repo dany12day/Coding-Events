@@ -1,11 +1,11 @@
-package com.GhereDaniel.CodingEvents.controllers;
+package com.GhereDaniel.CodingEvents.controllers.event;
 
-import com.GhereDaniel.CodingEvents.Data.EventCategoryRepository;
-import com.GhereDaniel.CodingEvents.Data.EventRepository;
-import com.GhereDaniel.CodingEvents.Data.EventTagRepository;
-import com.GhereDaniel.CodingEvents.models.Event;
-import com.GhereDaniel.CodingEvents.models.EventCategory;
-import com.GhereDaniel.CodingEvents.models.EventTag;
+import com.GhereDaniel.CodingEvents.data.event.EventCategoryRepository;
+import com.GhereDaniel.CodingEvents.data.event.EventRepository;
+import com.GhereDaniel.CodingEvents.data.event.EventTagRepository;
+import com.GhereDaniel.CodingEvents.models.event.Event;
+import com.GhereDaniel.CodingEvents.models.event.EventCategory;
+import com.GhereDaniel.CodingEvents.models.event.EventTag;
 import com.GhereDaniel.CodingEvents.models.dto.EventTagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

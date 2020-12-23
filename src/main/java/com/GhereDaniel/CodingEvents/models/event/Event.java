@@ -1,5 +1,8 @@
-package com.GhereDaniel.CodingEvents.models;
+package com.GhereDaniel.CodingEvents.models.event;
 
+
+import com.GhereDaniel.CodingEvents.models.AbstractEntity;
+import com.GhereDaniel.CodingEvents.models.user.Users;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -9,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Event  extends  AbstractEntity{
+public class Event  extends AbstractEntity {
 
     @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
     private String name;
@@ -22,6 +25,10 @@ public class Event  extends  AbstractEntity{
     @ManyToOne
     @NotNull(message = "Category is required")
     private EventCategory eventCategory;
+
+    @ManyToOne
+    @NotNull(message = "Category is required")
+    private Users users;
 
     @ManyToMany
     private final List<EventTag> tags = new ArrayList<>();
@@ -65,6 +72,14 @@ public class Event  extends  AbstractEntity{
 
     public void addTag(EventTag tag){
         this.tags.add(tag);
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
     }
 
     @Override
