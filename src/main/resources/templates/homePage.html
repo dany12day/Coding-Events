@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org/">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head th:replace="fragments :: head"></head>
     <body class="container">
 
@@ -7,6 +8,17 @@
 
         <nav th:replace="fragments :: navigation"></nav>
 
-        <p>Select, create or delete an event</p>
+        <p>You can view all the events, categories and tags but if you want to create and event, category or a tag you need to logg in</p>
+
+        <p>You can log in <a th:href="@{/login}">here</a></p>
+
+        <p>If you do not have an account you can register <a th:href="@{/register}">here</a></p>
+
+        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+
     </body>
 </html>

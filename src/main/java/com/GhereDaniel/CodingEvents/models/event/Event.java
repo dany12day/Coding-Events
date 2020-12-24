@@ -82,6 +82,8 @@ public class Event  extends AbstractEntity {
         this.users = users;
     }
 
+
+
     @Override
     public String toString() {
         return name;
