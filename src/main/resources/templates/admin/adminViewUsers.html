@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<h1 th:text="${title}"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+<p th:unless="${users} and ${users.size()}">No Events!</p>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tr th:each="user : ${users}">
+        <td><a th:text="${user.name}" th:href="'/admin/view/details/?eventId=' + ${user.id}"></a> </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -48,7 +48,7 @@ public class RegisterController {
         }
         Iterable<Users> users = usersRepository.findAll();
         for (Users users1: users) {
-            if(users1.getEmail().equals(user.getEmail())){
+            if(users1.getName().equals(user.getName())){
                 model.addAttribute("title","Register a new account");
                 model.addAttribute("user", new Users());
                 model.addAttribute("error", "Name must be between 3 and 50 characters");

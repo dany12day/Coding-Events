@@ -3,17 +3,24 @@ package com.GhereDaniel.CodingEvents.controllers.event;
 import com.GhereDaniel.CodingEvents.data.event.EventCategoryRepository;
 import com.GhereDaniel.CodingEvents.data.event.EventRepository;
 import com.GhereDaniel.CodingEvents.data.event.EventTagRepository;
+import com.GhereDaniel.CodingEvents.data.user.UsersRepository;
+import com.GhereDaniel.CodingEvents.models.dto.EventTagDTO;
 import com.GhereDaniel.CodingEvents.models.event.Event;
 import com.GhereDaniel.CodingEvents.models.event.EventCategory;
 import com.GhereDaniel.CodingEvents.models.event.EventTag;
-import com.GhereDaniel.CodingEvents.models.dto.EventTagDTO;
+import com.GhereDaniel.CodingEvents.models.user.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -28,6 +35,11 @@ public class EventController {
 
     @Autowired
     private EventTagRepository eventTagRepository;
+
+    @Autowired
+    private UsersRepository usersRepository;
+
+
 
     //lives at /events/view
     @GetMapping("view")
@@ -66,14 +78,56 @@ public class EventController {
             model.addAttribute("title", "Create Event");
             return "events/createEventPage";
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName="";
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            currentUserName = authentication.getName();
+        }
+        Iterable<Users> users = usersRepository.findAll();
+        for (Users users1: users) {
+            if(users1.getUsername().equals(currentUserName)){
+                newEvent.setUsers(users1);
+
+                eventRepository.save(newEvent);
+                return "redirect:/";
+            }
+        }
         eventRepository.save(newEvent);
         return "redirect:/";
     }
 
     @GetMapping("delete")
     public String displayDeleteEventForm(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName="";
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            currentUserName = authentication.getName();
+        }
+        Iterable<Users> users = usersRepository.findAll();
+        Users user= new Users();
+        for (Users users1: users) {
+            if(users1.getUsername().equals(currentUserName)){
+                user=users1;
+            }
+        }
+        List<Event> myEvents = new ArrayList<>();
+        Iterable<Event> events = eventRepository.findAll();
+        if(user.getUserType().getAccessClarence()!=1) {
+
+
+            for (Event event : events) {
+                if (event.getUsers().getId() == user.getId()) {
+                    myEvents.add(event);
+                }
+            }
+        }
+        else{
+            myEvents = (List<Event>) events;
+        }
+
+
         model.addAttribute("title", "Delete Events");
-        model.addAttribute("events", eventRepository.findAll());
+        model.addAttribute("events", myEvents);
         return "events/deleteEventPage";
     }
 

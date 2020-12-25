@@ -27,7 +27,6 @@ public class Event  extends AbstractEntity {
     private EventCategory eventCategory;
 
     @ManyToOne
-    @NotNull(message = "Category is required")
     private Users users;
 
     @ManyToMany
