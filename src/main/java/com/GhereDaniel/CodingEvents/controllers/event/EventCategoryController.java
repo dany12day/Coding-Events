@@ -21,7 +21,6 @@ public class EventCategoryController {
     @Autowired
     private EventCategoryRepository eventCategoryRepository;
 
-    //lives at /eventCategories/view
     @GetMapping("view")
     public String displayAllEventCategories(Model model){
         model.addAttribute("title","Event Categories List");
@@ -29,7 +28,6 @@ public class EventCategoryController {
         return "category/viewEventCategoryListPage";
     }
 
-    //lives at /eventCategories/create
     @GetMapping("create")
     public String displayCreateEventCategoryForm(Model model){
         model.addAttribute("title","Create Event Categories");
@@ -38,7 +36,6 @@ public class EventCategoryController {
         return "category/createEventCategoryPage";
     }
 
-    //lives at /eventCategories/create
     @PostMapping("create")
     public String processCreateEventCategoryForm(@ModelAttribute @Valid EventCategory newEventCategory, Errors errors, Model model){
         if(errors.hasErrors()){

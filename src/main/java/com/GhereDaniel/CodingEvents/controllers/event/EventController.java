@@ -1,6 +1,7 @@
 package com.GhereDaniel.CodingEvents.controllers.event;
 
 import com.GhereDaniel.CodingEvents.data.event.EventCategoryRepository;
+import com.GhereDaniel.CodingEvents.data.event.EventDetailsRepository;
 import com.GhereDaniel.CodingEvents.data.event.EventRepository;
 import com.GhereDaniel.CodingEvents.data.event.EventTagRepository;
 import com.GhereDaniel.CodingEvents.data.user.UsersRepository;
@@ -34,14 +35,14 @@ public class EventController {
     private EventCategoryRepository eventCategoryRepository;
 
     @Autowired
+    private EventDetailsRepository eventDetailsRepository;
+
+    @Autowired
     private EventTagRepository eventTagRepository;
 
     @Autowired
     private UsersRepository usersRepository;
 
-
-
-    //lives at /events/view
     @GetMapping("view")
     public String displayAllEvents(@RequestParam(required = false) Integer categoryId, Model model){
 
@@ -62,7 +63,6 @@ public class EventController {
         return "events/viewEventListPage";
     }
 
-    //lives at /events/create
     @GetMapping("create")
     public String displayCreateEventForm(Model model){
         model.addAttribute("title","Create Event");
@@ -141,12 +141,13 @@ public class EventController {
         return "redirect:/";
     }
 
-    //lives at /events/view/details
+    private Integer toBeModifyEvent=0;
+
     @GetMapping("view/details")
     public String displayEventDetails(@RequestParam Integer eventId, Model model){
 
         Optional<Event> result = eventRepository.findById(eventId);
-
+        toBeModifyEvent=eventId;
         Event event = result.get();
         model.addAttribute("title", "Event: "+ event.getName());
         model.addAttribute("event", event);
@@ -155,7 +156,6 @@ public class EventController {
         return "events/viewEventDetails";
     }
 
-    // responds to /events/add-tag?eventId=13
     @GetMapping("add-tag")
     public String displayAddTagForm(@RequestParam Integer eventId, Model model){
         Optional<Event> result = eventRepository.findById(eventId);
@@ -165,7 +165,7 @@ public class EventController {
         EventTagDTO eventTag = new EventTagDTO();
         eventTag.setEvent(event);
         model.addAttribute("eventTag", eventTag);
-        return "events/add-tag.html";
+        return "events/add-tag";
     }
 
     @PostMapping("add-tag")
@@ -182,6 +182,32 @@ public class EventController {
             eventRepository.save(event);
             return "redirect:/";
         }
-        return "events/add-tag.html";
+        return "events/add-tag";
+    }
+
+    @GetMapping("updateEvent")
+    public String displayUpdateEventForm(Model model){
+        model.addAttribute("title","Register a new account");
+        model.addAttribute("event", new Event());
+        model.addAttribute("error", "");
+        model.addAttribute("categories", eventCategoryRepository.findAll());
+        return "events/updateEvent";
+    }
+
+    @PostMapping("updateEvent")
+    public String processUpdateEventForm(@ModelAttribute @Valid Event event, Errors errors, Model model){
+        if(errors.hasErrors()){
+            model.addAttribute("title","Register a new account");
+            model.addAttribute("user", new Users());
+            model.addAttribute("error", "Name must be between 3 and 50 characters");
+            return "events/updateEvent";
+        }
+
+        if(!event.getName().equals(""))
+            eventRepository.updateName(toBeModifyEvent,event.getName());
+        eventRepository.updateCategory(toBeModifyEvent,event.getEventCategory());
+        eventDetailsRepository.updateDetailsContactMail(eventRepository.findById(toBeModifyEvent).get().getEventDetails().getId(), event.getEventDetails().getContactEmail());
+        eventDetailsRepository.updateDetailsDescription(eventRepository.findById(toBeModifyEvent).get().getEventDetails().getId(), event.getEventDetails().getDescription());
+        return "redirect:/";
     }
 }

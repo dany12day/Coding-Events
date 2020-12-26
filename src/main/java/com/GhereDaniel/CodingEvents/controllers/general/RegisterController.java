@@ -28,7 +28,7 @@ public class RegisterController {
     private UserTypeRepository userTypeRepository;
 
     @GetMapping("")
-    public String displayCreateEventCategoryForm(Model model){
+    public String displayRegisterForm(Model model){
         model.addAttribute("title","Register a new account");
         model.addAttribute("user", new Users());
         model.addAttribute("error", "");
@@ -39,7 +39,7 @@ public class RegisterController {
     PasswordEncoder passwordEncoder;
 
     @PostMapping("")
-    public String processCreateEventCategoryForm(@ModelAttribute @Valid Users user, Errors errors, Model model){
+    public String processRegisterForm(@ModelAttribute @Valid Users user, Errors errors, Model model){
         if(errors.hasErrors()){
             model.addAttribute("title","Register a new account");
             model.addAttribute("user", new Users());
@@ -48,7 +48,7 @@ public class RegisterController {
         }
         Iterable<Users> users = usersRepository.findAll();
         for (Users users1: users) {
-            if(users1.getName().equals(user.getName())){
+            if(users1.getUsername().equals(user.getUsername())){
                 model.addAttribute("title","Register a new account");
                 model.addAttribute("user", new Users());
                 model.addAttribute("error", "Name must be between 3 and 50 characters");

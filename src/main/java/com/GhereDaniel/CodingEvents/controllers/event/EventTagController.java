@@ -21,26 +21,23 @@ public class EventTagController {
     @Autowired
     private EventTagRepository eventTagRepository;
 
-    //lives at /eventCategories/view
     @GetMapping("view")
-    public String displayAllEventCategories(Model model){
+    public String displayAllTags(Model model){
         model.addAttribute("title","Event Tag List");
         model.addAttribute("eventTags", eventTagRepository.findAll());
         return "tag/viewEventTagListPage";
     }
 
-    //lives at /eventCategories/create
     @GetMapping("create")
-    public String displayCreateEventCategoryForm(Model model){
+    public String displayCreateTagForm(Model model){
         model.addAttribute("title","Create Event Tag");
         model.addAttribute(new Event());
         model.addAttribute("error", "");
         return "tag/createEventTagPage";
     }
 
-    //lives at /eventCategories/create
     @PostMapping("create")
-    public String processCreateEventCategoryForm(@ModelAttribute @Valid EventTag newEventTag, Errors errors, Model model){
+    public String processCreateTagForm(@ModelAttribute @Valid EventTag newEventTag, Errors errors, Model model){
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Event Tag");
             model.addAttribute(new Event());

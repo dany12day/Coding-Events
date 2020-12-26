@@ -13,7 +13,7 @@
     </tr>
     </thead>
     <tr th:each="user : ${users}">
-        <td><a th:text="${user.name}" th:href="'/admin/view/details/?eventId=' + ${user.id}"></a> </td>
+        <td><a th:text="${user.name}" th:href="'/admin/view/details/?userId=' + ${user.id}"></a> </td>
     </tr>
 </table>
 </body>

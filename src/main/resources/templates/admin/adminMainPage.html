@@ -5,7 +5,8 @@
     <body class="container">
         <h1 th:text="${title}"></h1>
         <nav th:replace="fragments :: navigation"></nav>
-
+        <li class="nav-item"><a class="nav-link" href="/admin/view">View Users</a></li>
+        <li class="nav-item"><a class="nav-link" href="/admin/delete">Delete Users</a></li>
 
     </body>
 </html>
